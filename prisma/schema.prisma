@@ -1,0 +1,90 @@
+// Prisma Schema for Edgelink SEO Automation Dashboard
+// Section 5: Database Schema — Prisma + Supabase / Neon
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id           String     @id @default(cuid())
+  name         String
+  domain       String
+  businessType String     @default("General")
+  city         String     @default("Pune")
+  state        String     @default("Maharashtra")
+  country      String     @default("India")
+  contactEmail String?
+  contactPhone String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  audits       Audit[]
+
+  @@map("clients")
+}
+
+model Audit {
+  id               String                @id @default(cuid())
+  clientId         String?
+  client           Client?               @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  url              String
+  businessType     String?
+  city             String?
+  state            String?
+  status           String                @default("queued") // queued, crawling, pagespeed, gsc, schema, onpage, robots, dataforseo, ai_analyzing, generating_pdf, completed, failed
+  progress         Int                   @default(0)        // 0 - 100
+  overallScore     Int?
+  technicalScore   Int?
+  onPageScore      Int?
+  contentScore     Int?
+  cwvScore         Int?
+  schemaScore      Int?
+  criticalIssues   String?               // JSON array string
+  importantIssues  String?               // JSON array string
+  quickWins        String?               // JSON array string
+  executiveSummary String?
+  rawSignals       String?               // JSON string of all 7 crawler outputs
+  rawAiResponse    String?               // JSON string returned by Claude
+  pdfPath          String?
+  pdfUrl           String?
+  errorMessage     String?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  completedAt      DateTime?
+  recommendations  AuditRecommendation[]
+  logs             AuditLog[]
+
+  @@map("audits")
+}
+
+model AuditRecommendation {
+  id                  String   @id @default(cuid())
+  auditId             String
+  audit               Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  priority            String   // CRITICAL | HIGH | MEDIUM | LOW
+  category            String   // Technical | OnPage | Content | Schema | CWV
+  finding             String
+  fix                 String
+  estimatedImpact     String   // High | Medium | Low
+  effort              String   // Hours | Days | Weeks
+  falsifiabilityCheck String
+  createdAt           DateTime @default(now())
+
+  @@map("audit_recommendations")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  auditId   String
+  audit     Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  step      String   // STEP_1_CRAWL, STEP_2_PAGESPEED, etc.
+  status    String   // START | SUCCESS | FAILED
+  message   String
+  timestamp DateTime @default(now())
+
+  @@map("audit_logs")
+}
