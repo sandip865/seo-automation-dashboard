@@ -35,6 +35,10 @@ export default function ClientDashboard({ auditId, onBackToAdmin }: ClientDashbo
   const [categoryFilter, setCategoryFilter] = useState('ALL');
   const [activeSignalTab, setActiveSignalTab] = useState<'cwv' | 'gsc' | 'rankings' | 'schema' | 'onpage'>('cwv');
   const [whatsappSent, setWhatsappSent] = useState(false);
+  const [isSendingWhatsapp, setIsSendingWhatsapp] = useState(false);
+  const [showWhatsappModal, setShowWhatsappModal] = useState(false);
+  const [whatsappData, setWhatsappData] = useState<any>(null);
+  const [targetPhone, setTargetPhone] = useState('+91 98765 43210');
 
   useEffect(() => {
     const fetchAudit = async () => {
@@ -55,12 +59,27 @@ export default function ClientDashboard({ auditId, onBackToAdmin }: ClientDashbo
   }, [auditId]);
 
   const handleSendWhatsApp = async () => {
-    setWhatsappSent(true);
+    setIsSendingWhatsapp(true);
     try {
-      console.log('[MOCK WHATSAPP] Triggered manually from client dashboard for Audit:', auditId);
-      setTimeout(() => setWhatsappSent(false), 4000);
-    } catch {
-      setWhatsappSent(false);
+      const res = await fetch('/api/whatsapp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          auditId: audit.id,
+          phone: targetPhone
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setWhatsappData(data);
+        setShowWhatsappModal(true);
+        setWhatsappSent(true);
+      }
+    } catch (err) {
+      console.error('Error sending whatsapp:', err);
+    } finally {
+      setIsSendingWhatsapp(false);
     }
   };
 
@@ -154,11 +173,11 @@ export default function ClientDashboard({ auditId, onBackToAdmin }: ClientDashbo
 
           <button
             onClick={handleSendWhatsApp}
-            disabled={whatsappSent}
-            className="flex items-center gap-2 px-4 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-xl text-sm font-semibold transition-all"
+            disabled={isSendingWhatsapp}
+            className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-emerald-600/20 transition-all disabled:opacity-50"
           >
-            <MessageSquare className="w-4 h-4 text-emerald-600" />
-            {whatsappSent ? 'WhatsApp Sent (Console Logged!)' : 'Send WhatsApp Report'}
+            <MessageSquare className="w-4 h-4" />
+            {isSendingWhatsapp ? 'Sending...' : 'Send WhatsApp Report'}
           </button>
         </div>
       </div>
@@ -651,6 +670,78 @@ export default function ClientDashboard({ auditId, onBackToAdmin }: ClientDashbo
           )}
         </div>
       </div>
+
+      {/* WhatsApp Dispatch Modal */}
+      {showWhatsappModal && whatsappData && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-2 text-emerald-700">
+                <MessageSquare className="w-5 h-5 fill-current" />
+                <h3 className="font-bold text-lg text-slate-900">WhatsApp Notification Dispatched</h3>
+              </div>
+              <button
+                onClick={() => setShowWhatsappModal(false)}
+                className="text-slate-400 hover:text-slate-600 font-bold text-lg"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="py-4 space-y-4">
+              <div className="flex items-center justify-between text-xs bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono">
+                <span className="text-slate-500">Status: <strong className="text-emerald-700 uppercase">MOCK_SENT</strong></span>
+                <span className="text-slate-500">SID: <strong className="text-slate-800">{whatsappData.sid}</strong></span>
+              </div>
+
+              {/* Simulated WhatsApp Chat Bubble */}
+              <div>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                  Recipient ({whatsappData.phone}) Message Preview:
+                </span>
+                <div className="bg-[#EFEAE2] p-4 rounded-xl border border-slate-200 shadow-inner">
+                  <div className="bg-[#DCF8C6] text-slate-800 p-3.5 rounded-xl rounded-tr-none text-xs leading-relaxed shadow-sm font-sans space-y-1">
+                    <p className="font-bold text-slate-900">EDGELINK TECHNOLOGY — SEO Audit Report</p>
+                    <p>Website: <span className="font-mono">{audit.url}</span></p>
+                    <p>Overall SEO Health Score: <strong className="text-emerald-800">{audit.overallScore}/100</strong></p>
+                    <p className="text-slate-700">Your executive audit report and recommendations have been generated.</p>
+                    <p className="font-semibold text-teal-800 underline">
+                      Download Report: {whatsappData.pdfUrl}
+                    </p>
+                    <p className="text-[10px] text-slate-400 text-right mt-1">Just now ✓✓</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Twilio Mock Notice */}
+              <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                <p className="font-semibold">ℹ️ Twilio WhatsApp Mock Policy (Section 2.1)</p>
+                <p className="text-[11px] text-amber-800 mt-0.5">
+                  Logged directly to your server terminal console per assessment instructions. You can also click below to open and preview it on WhatsApp Web.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-2.5">
+              <a
+                href={whatsappData.whatsappWebUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all text-center flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Open on WhatsApp Web
+              </a>
+              <button
+                onClick={() => setShowWhatsappModal(false)}
+                className="w-full sm:w-auto px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
