@@ -166,10 +166,15 @@ async function executeAuditPipeline(auditId, options = {}) {
     await storage.addLog(auditId, 'PDF_GENERATION', 'START', 'Generating publication-ready executive PDF audit report');
     console.log(`[PDF Generator] Rendering PDF audit report...`);
 
+    const isVercel = Boolean(process.env.VERCEL);
     const pdfFileName = `Audit-Report-${auditId}.pdf`;
-    const publicReportsDir = path.join(process.cwd(), 'public', 'reports');
-    const pdfPath = path.join(publicReportsDir, pdfFileName);
-    const pdfUrl = `/reports/${pdfFileName}`;
+    const reportsDir = isVercel
+      ? path.join('/tmp', 'reports')
+      : path.join(process.cwd(), 'public', 'reports');
+    const pdfPath = path.join(reportsDir, pdfFileName);
+    const pdfUrl = isVercel
+      ? `/api/reports/${pdfFileName}`
+      : `/reports/${pdfFileName}`;
 
     await generateAuditPdf({
       url,
