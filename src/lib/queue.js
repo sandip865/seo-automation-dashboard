@@ -74,19 +74,28 @@ async function enqueueAuditJob(auditId, data = {}) {
     };
   }
 
-  // Graceful asynchronous runner fallback
-  setImmediate(async () => {
+  // Graceful runner fallback
+  const isVercel = Boolean(process.env.VERCEL);
+  if (isVercel) {
     try {
       await executeAuditPipeline(auditId);
     } catch (e) {
-      console.error('[Async Queue Runner] Error processing audit:', e);
+      console.error('[Vercel Runner] Error processing audit:', e);
     }
-  });
+  } else {
+    setImmediate(async () => {
+      try {
+        await executeAuditPipeline(auditId);
+      } catch (e) {
+        console.error('[Async Queue Runner] Error processing audit:', e);
+      }
+    });
+  }
 
   return {
     success: true,
     jobId: `job_${Date.now()}`,
-    mode: 'in-process-async',
+    mode: isVercel ? 'vercel-serverless-runner' : 'in-process-async',
     queue: QUEUE_NAME
   };
 }

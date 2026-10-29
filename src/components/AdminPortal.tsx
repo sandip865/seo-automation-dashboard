@@ -157,10 +157,11 @@ export default function AdminPortal({ onSelectAudit }: AdminPortalProps) {
         setActiveAudit(data.audit);
         fetchDashboardData();
       } else {
-        alert('Failed to trigger audit. Please check server logs.');
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.error || 'Failed to trigger audit. Please check server logs.');
       }
-    } catch (err) {
-      alert('Network error while triggering audit');
+    } catch (err: any) {
+      alert(`Network error: ${err.message || 'Failed to connect'}`);
     } finally {
       setIsTriggering(false);
     }
