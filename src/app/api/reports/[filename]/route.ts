@@ -30,14 +30,20 @@ export async function GET(
       // Dynamic on-demand generation for serverless ephemeral filesystems
       try {
         const { storage } = require('@/lib/storage');
-        const { getFallbackPdfBuffer } = require('@/services/pdf-service');
+        const { generateAuditPdfBuffer, getFallbackPdfBuffer } = require('@/services/pdf-service');
         const auditId = filename.replace(/^Audit-Report-/, '').replace(/\.pdf$/, '');
         let audit = await storage.getAuditById(auditId);
         if (!audit) {
           const audits = await storage.getAudits();
           audit = audits.find((a: any) => a.id === auditId) || audits[0] || null;
         }
-        fileBuffer = getFallbackPdfBuffer(audit || { url: 'https://example-dental-clinic.com', overallScore: 74 });
+
+        try {
+          fileBuffer = await generateAuditPdfBuffer(audit || { url: 'https://example-dental-clinic.com', overallScore: 74 });
+        } catch (pdfKitErr: any) {
+          console.warn('[PDFKit in API route failed, using vector buffer]:', pdfKitErr.message);
+          fileBuffer = getFallbackPdfBuffer(audit || { url: 'https://example-dental-clinic.com', overallScore: 74 });
+        }
       } catch (genErr) {
         console.error('[On-demand PDF generation error]:', genErr);
       }
