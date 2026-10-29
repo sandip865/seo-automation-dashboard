@@ -2,13 +2,40 @@ const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
 
+function cleanOldReports(dir, maxKeep = 15) {
+  try {
+    if (!fs.existsSync(dir)) return;
+    const files = fs.readdirSync(dir)
+      .filter(f => f.endsWith('.pdf') && f !== 'Audit-Report-benchmark.pdf')
+      .map(f => ({
+        name: f,
+        time: fs.statSync(path.join(dir, f)).mtimeMs
+      }))
+      .sort((a, b) => b.time - a.time);
+
+    // If files exceed maxKeep, delete the oldest
+    if (files.length > maxKeep) {
+      files.slice(maxKeep).forEach(file => {
+        try {
+          fs.unlinkSync(path.join(dir, file.name));
+          console.log(`[Storage Retention] Auto-pruned old audit report: ${file.name}`);
+        } catch {}
+      });
+    }
+  } catch (err) {
+    // Silent catch so PDF generation is never blocked
+  }
+}
+
 async function generateAuditPdf(auditData, outputPath) {
   return new Promise((resolve, reject) => {
     try {
-      // Ensure destination directory exists
+      // Ensure destination directory exists and auto-prune older test files
       const dir = path.dirname(outputPath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
+      } else {
+        cleanOldReports(dir, 15);
       }
 
       const doc = new PDFDocument({

@@ -35,3 +35,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated dynamic reports (keep only benchmark sample)
+public/reports/Audit-Report-audit_*.pdf
