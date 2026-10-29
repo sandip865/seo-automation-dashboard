@@ -25,6 +25,462 @@
   ],
   "audits": [
     {
+      "id": "audit_1793245753848_c1qmc",
+      "status": "completed",
+      "progress": 100,
+      "createdAt": "2026-10-29T03:49:13.848Z",
+      "updatedAt": "2026-10-29T03:49:15.257Z",
+      "url": "https://example-dental-clinic.com",
+      "businessType": "Dental Clinic",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "clientId": "client-1",
+      "overallScore": 74,
+      "technicalScore": 78,
+      "onPageScore": 82,
+      "contentScore": 70,
+      "cwvScore": 61,
+      "schemaScore": 79,
+      "criticalIssues": [
+        "Largest Contentful Paint (LCP) is critically delayed at 4.2 s, exceeding Google's 2.5s Core Web Vitals threshold.",
+        "Missing Google Maps LocalBusiness GeoCoordinates in Schema.org LD+JSON, hurting Local Map Pack rankings in Pune.",
+        "High volume of render-blocking stylesheets and 420 KiB unused JavaScript files delaying initial DOM render."
+      ],
+      "importantIssues": [
+        "Keyword gap for high-intent search query 'dental implants cost pune' currently dropping to rank position 11.3.",
+        "Total of 3 index coverage errors detected in Google Search Console crawl reports.",
+        "Missing localized descriptive ALT text on multiple clinic interior & equipment images.",
+        "Service landing pages lack structured FAQ schema for Google Rich Result expansion."
+      ],
+      "recommendations": [
+        {
+          "priority": "CRITICAL",
+          "category": "CWV",
+          "finding": "LCP is 4.2 s due to unoptimized hero image assets and 420 KiB unused JS delaying the main viewport render.",
+          "fix": "Convert hero images to WebP/AVIF format with width/height attributes, preload the primary LCP image tag, and defer non-critical third-party analytics scripts.",
+          "estimated_impact": "High",
+          "effort": "Hours",
+          "falsifiability_check": "PageSpeed Insights mobile LCP drops under 2.4s and Core Web Vitals audit badge turns green in Search Console within 14 days."
+        },
+        {
+          "priority": "CRITICAL",
+          "category": "Schema",
+          "finding": "Dentist Schema is missing geo coordinates (latitude/longitude) and openingHoursSpecification required for the Pune Google 3-Pack.",
+          "fix": "Update Schema.org script to include 'geo': {'@type': 'GeoCoordinates', 'latitude': '18.5204', 'longitude': '73.8567'} and explicit opening hours.",
+          "estimated_impact": "High",
+          "effort": "Hours",
+          "falsifiability_check": "Rich Results Test verifies 0 warnings on LocalBusiness, and Google Search Console reports valid Merchant/Local Listing schema."
+        },
+        {
+          "priority": "HIGH",
+          "category": "OnPage",
+          "finding": "High intent commercial keyword 'dental implants cost pune' has low CTR (3.5%) and position 11.3 (Page 2).",
+          "fix": "Create a dedicated procedural cost guide page for 'Dental Implants Cost in Pune' featuring transparent price ranges, EMI details, and an FAQ section.",
+          "estimated_impact": "High",
+          "effort": "Days",
+          "falsifiability_check": "Google Search Console average position moves from 11.3 to top 5 within 28 days of indexing."
+        },
+        {
+          "priority": "HIGH",
+          "category": "Technical",
+          "finding": "2 render-blocking resources and 3 index coverage errors detected preventing optimal crawl budget utilization.",
+          "fix": "Resolve the 3 crawl 404/redirect errors in Search Console and inline critical CSS while deferring secondary font files.",
+          "estimated_impact": "Medium",
+          "effort": "Days",
+          "falsifiability_check": "Index coverage report in GSC shows 0 errors and server response time drops below 300ms."
+        },
+        {
+          "priority": "MEDIUM",
+          "category": "Content",
+          "finding": "Content depth is relatively thin on individual service offerings compared to competitors competitorA.com and competitorB.com.",
+          "fix": "Expand service pages to minimum 800+ words with localized patient testimonials, doctor credentials, and step-by-step procedure breakdown.",
+          "estimated_impact": "Medium",
+          "effort": "Weeks",
+          "falsifiability_check": "Organic impressions increase by >35% on DataForSEO tracked keywords within 60 days."
+        }
+      ],
+      "executiveSummary": "The website exhibits a healthy technical foundation with an overall SEO score of 74/100, but is held back by slow mobile Core Web Vitals (LCP 4.2s) and incomplete local schema markup. Addressing the render-blocking scripts and adding local GeoCoordinates will quickly boost visibility in Pune's competitive dental pack. Implementing the dedicated implant cost landing page will unlock high-intent patient appointments currently captured by competitors.",
+      "rawSignals": {
+        "crawledData": {
+          "url": "https://example-dental-clinic.com",
+          "status": 200,
+          "headers": {
+            "content-type": "text/html",
+            "server": "nginx"
+          },
+          "meta": {
+            "title": "Example Dental Clinic | Premier Dentist in Pune",
+            "titleLength": 47,
+            "metaDescription": "Leading dental clinic in Pune providing painless root canal, dental implants, teeth whitening, and orthodontic treatments. Book consultation today.",
+            "metaDescriptionLength": 147,
+            "canonical": "https://example-dental-clinic.com",
+            "viewport": "width=device-width, initial-scale=1.0",
+            "lang": "en",
+            "openGraph": {
+              "title": "Example Dental Clinic - Dental Care in Pune",
+              "description": "Trusted dental clinic in Pune. Highly rated dentists and modern dental care.",
+              "image": "",
+              "type": ""
+            }
+          },
+          "headings": {
+            "h1": [
+              "Best Dental Clinic & Care in Pune"
+            ],
+            "h2": [
+              "Comprehensive Dental Treatments in Pune",
+              "Why Choose Our Pune Dental Hospital?"
+            ],
+            "h3": [
+              "Our Specialities"
+            ],
+            "h4": []
+          },
+          "images": {
+            "total": 3,
+            "missingAlt": 1,
+            "altRatio": "0.67"
+          },
+          "links": {
+            "internalCount": 4,
+            "externalCount": 2,
+            "internal": [
+              "/",
+              "/services",
+              "/doctors",
+              "/contact"
+            ],
+            "external": [
+              "https://facebook.com/dentalclinic",
+              "https://instagram.com/dentalclinic"
+            ]
+          },
+          "content": {
+            "wordCount": 98,
+            "snippet": "Best Dental Clinic & Care in Pune Home Services Our Dentists Contact Us Comprehensive Dental Treatments in Pune Welcome to Pune's leading multispeciality dental clinic. We specialize in laser dentistry, dental implants in Pune, painless root canal treatment, and smile design. Why Choose Our Pune Dental Hospital? Our experienced dental surgeons provide world-class dental care at affordable costs in Pune. With over 15 years of experience, we have treated 10,000+ happy smiles. Our Specialities Dental Implants Surgery Root Canal Therapy Invisalign & Clear Aligners Cosmetic Dental Care © 2026 Examp"
+          },
+          "rawHtmlLength": 2911
+        },
+        "pagespeedData": {
+          "url": "https://example-dental-clinic.com",
+          "strategy": "mobile",
+          "categories": {
+            "performance": {
+              "score": 0.61
+            },
+            "seo": {
+              "score": 0.89
+            },
+            "accessibility": {
+              "score": 0.74
+            }
+          },
+          "audits": {
+            "largest-contentful-paint": {
+              "score": 0.4,
+              "displayValue": "4.2 s"
+            },
+            "cumulative-layout-shift": {
+              "score": 0.9,
+              "displayValue": "0.08"
+            },
+            "interaction-to-next-paint": {
+              "score": 0.6,
+              "displayValue": "280 ms"
+            },
+            "render-blocking-resources": {
+              "score": 0.5,
+              "description": "2 blocking resources"
+            },
+            "unused-javascript": {
+              "score": 0.4,
+              "displayValue": "420 KiB"
+            }
+          }
+        },
+        "gscData": {
+          "rows": [
+            {
+              "query": "dental clinic in pune",
+              "clicks": 42,
+              "impressions": 980,
+              "ctr": 0.043,
+              "position": 6.2
+            },
+            {
+              "query": "best dentist pune",
+              "clicks": 28,
+              "impressions": 740,
+              "ctr": 0.038,
+              "position": 8.1
+            },
+            {
+              "query": "tooth extraction pune",
+              "clicks": 19,
+              "impressions": 430,
+              "ctr": 0.044,
+              "position": 5.7
+            },
+            {
+              "query": "dental implants cost pune",
+              "clicks": 11,
+              "impressions": 310,
+              "ctr": 0.035,
+              "position": 11.3
+            },
+            {
+              "query": "dentist near me",
+              "clicks": 67,
+              "impressions": 2100,
+              "ctr": 0.032,
+              "position": 9.4
+            }
+          ],
+          "totalClicks": 167,
+          "totalImpressions": 4560,
+          "indexCoverageErrors": 3
+        },
+        "schemaData": {
+          "score": 80,
+          "schemasFound": 1,
+          "detectedTypes": [
+            "Dentist"
+          ],
+          "hasLocalBusiness": true,
+          "hasOrganization": false,
+          "microdataItems": 0,
+          "errors": [],
+          "warnings": [
+            "Missing 'openingHours' in Dentist schema for local SEO visibility",
+            "Missing 'geo' coordinates in Dentist schema (recommended for Google Maps ranking)"
+          ],
+          "blocks": [
+            {
+              "@context": "https://schema.org",
+              "@type": "Dentist",
+              "name": "Example Dental Clinic",
+              "telephone": "+91-9876543210",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "123 FC Road",
+                "addressLocality": "Pune",
+                "addressRegion": "Maharashtra",
+                "postalCode": "411005",
+                "addressCountry": "IN"
+              }
+            }
+          ]
+        },
+        "onPageData": {
+          "score": 83,
+          "title": "Example Dental Clinic | Premier Dentist in Pune",
+          "titleLength": 47,
+          "metaDescription": "Leading dental clinic in Pune providing painless root canal, dental implants, teeth whitening, and orthodontic treatments. Book consultation today.",
+          "metaDescriptionLength": 147,
+          "wordCount": 98,
+          "headingSummary": {
+            "h1Count": 1,
+            "h2Count": 2,
+            "h3Count": 1,
+            "primaryH1": "Best Dental Clinic & Care in Pune"
+          },
+          "imageSummary": {
+            "total": 3,
+            "missingAlt": 1
+          },
+          "internalLinksCount": 4,
+          "externalLinksCount": 2,
+          "checks": [
+            {
+              "item": "Title Tag Length",
+              "status": "PASSED",
+              "message": "Title length is optimal (47 characters).",
+              "impact": "LOW"
+            },
+            {
+              "item": "Title Geo-Targeting",
+              "status": "PASSED",
+              "message": "Target location (Pune) present in title tag.",
+              "impact": "LOW"
+            },
+            {
+              "item": "Meta Description Length",
+              "status": "PASSED",
+              "message": "Meta description length is optimal (147 characters).",
+              "impact": "LOW"
+            },
+            {
+              "item": "H1 Heading Structure",
+              "status": "PASSED",
+              "message": "Single, focused H1 found: \"Best Dental Clinic & Care in Pune\"",
+              "impact": "LOW"
+            },
+            {
+              "item": "Image Alt Tags",
+              "status": "WARNING",
+              "message": "1 of 3 images are missing alt attributes.",
+              "impact": "MEDIUM"
+            },
+            {
+              "item": "Thin Content",
+              "status": "WARNING",
+              "message": "Low text content (98 words). Recommended minimum 500+ words for local service landing pages.",
+              "impact": "HIGH"
+            }
+          ]
+        },
+        "robotsData": {
+          "robotsTxt": {
+            "url": "https://example-dental-clinic.com/robots.txt",
+            "found": true,
+            "statusCode": 200,
+            "disallowedPaths": [
+              "/admin/"
+            ],
+            "sitemapReference": "https://example-dental-clinic.com/sitemap.xml",
+            "content": "User-agent: *\nDisallow: /admin/\nSitemap: https://example-dental-clinic.com/sitemap.xml"
+          },
+          "sitemapXml": {
+            "url": "https://example-dental-clinic.com/sitemap.xml",
+            "found": true,
+            "statusCode": 200,
+            "urlsFound": 18,
+            "isValidXml": true
+          },
+          "score": 100,
+          "issues": []
+        },
+        "technicalData": {
+          "url": "https://example-dental-clinic.com",
+          "isHttps": true,
+          "httpStatusCode": 200,
+          "server": "nginx",
+          "contentType": "text/html",
+          "robotsTxtPresent": true,
+          "sitemapXmlPresent": true,
+          "canonicalDefined": true,
+          "mobileViewport": true,
+          "score": 80,
+          "issues": [
+            "Render-blocking resources detected (2 blocking resources)",
+            "High unused JavaScript payload (420 KiB)"
+          ]
+        },
+        "rankingsData": {
+          "tasks": [
+            {
+              "result": [
+                {
+                  "keyword": "dental clinic pune",
+                  "items": [
+                    {
+                      "type": "organic",
+                      "rank_group": 1,
+                      "rank_absolute": 4,
+                      "domain": "example-dental-clinic.com"
+                    },
+                    {
+                      "type": "organic",
+                      "rank_group": 2,
+                      "rank_absolute": 8,
+                      "domain": "competitorA.com"
+                    },
+                    {
+                      "type": "organic",
+                      "rank_group": 3,
+                      "rank_absolute": 12,
+                      "domain": "competitorB.com"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "client_rank_position": 4,
+          "keyword_search_volume": 1900
+        }
+      },
+      "rawAiResponse": {
+        "audit_version": "v1.0",
+        "overall_score": 74,
+        "score_breakdown": {
+          "technical": 78,
+          "on_page": 82,
+          "content": 70,
+          "core_web_vitals": 61,
+          "schema": 79
+        },
+        "critical_issues": [
+          "Largest Contentful Paint (LCP) is critically delayed at 4.2 s, exceeding Google's 2.5s Core Web Vitals threshold.",
+          "Missing Google Maps LocalBusiness GeoCoordinates in Schema.org LD+JSON, hurting Local Map Pack rankings in Pune.",
+          "High volume of render-blocking stylesheets and 420 KiB unused JavaScript files delaying initial DOM render."
+        ],
+        "important_issues": [
+          "Keyword gap for high-intent search query 'dental implants cost pune' currently dropping to rank position 11.3.",
+          "Total of 3 index coverage errors detected in Google Search Console crawl reports.",
+          "Missing localized descriptive ALT text on multiple clinic interior & equipment images.",
+          "Service landing pages lack structured FAQ schema for Google Rich Result expansion."
+        ],
+        "quickWins": [
+          "Add 'geo' (latitude/longitude) and 'openingHours' to Dentist JSON-LD schema (effort: 30 minutes).",
+          "Compress hero banner image to modern WebP format and apply fetchpriority='high' (effort: 45 minutes).",
+          "Update Homepage H1 to include localized target phrase: 'Dental Clinic in Pune' (effort: 15 minutes).",
+          "Defer non-critical JavaScript bundle to eliminate render-blocking penalty (effort: 1 hour)."
+        ],
+        "recommendations": [
+          {
+            "priority": "CRITICAL",
+            "category": "CWV",
+            "finding": "LCP is 4.2 s due to unoptimized hero image assets and 420 KiB unused JS delaying the main viewport render.",
+            "fix": "Convert hero images to WebP/AVIF format with width/height attributes, preload the primary LCP image tag, and defer non-critical third-party analytics scripts.",
+            "estimated_impact": "High",
+            "effort": "Hours",
+            "falsifiability_check": "PageSpeed Insights mobile LCP drops under 2.4s and Core Web Vitals audit badge turns green in Search Console within 14 days."
+          },
+          {
+            "priority": "CRITICAL",
+            "category": "Schema",
+            "finding": "Dentist Schema is missing geo coordinates (latitude/longitude) and openingHoursSpecification required for the Pune Google 3-Pack.",
+            "fix": "Update Schema.org script to include 'geo': {'@type': 'GeoCoordinates', 'latitude': '18.5204', 'longitude': '73.8567'} and explicit opening hours.",
+            "estimated_impact": "High",
+            "effort": "Hours",
+            "falsifiability_check": "Rich Results Test verifies 0 warnings on LocalBusiness, and Google Search Console reports valid Merchant/Local Listing schema."
+          },
+          {
+            "priority": "HIGH",
+            "category": "OnPage",
+            "finding": "High intent commercial keyword 'dental implants cost pune' has low CTR (3.5%) and position 11.3 (Page 2).",
+            "fix": "Create a dedicated procedural cost guide page for 'Dental Implants Cost in Pune' featuring transparent price ranges, EMI details, and an FAQ section.",
+            "estimated_impact": "High",
+            "effort": "Days",
+            "falsifiability_check": "Google Search Console average position moves from 11.3 to top 5 within 28 days of indexing."
+          },
+          {
+            "priority": "HIGH",
+            "category": "Technical",
+            "finding": "2 render-blocking resources and 3 index coverage errors detected preventing optimal crawl budget utilization.",
+            "fix": "Resolve the 3 crawl 404/redirect errors in Search Console and inline critical CSS while deferring secondary font files.",
+            "estimated_impact": "Medium",
+            "effort": "Days",
+            "falsifiability_check": "Index coverage report in GSC shows 0 errors and server response time drops below 300ms."
+          },
+          {
+            "priority": "MEDIUM",
+            "category": "Content",
+            "finding": "Content depth is relatively thin on individual service offerings compared to competitors competitorA.com and competitorB.com.",
+            "fix": "Expand service pages to minimum 800+ words with localized patient testimonials, doctor credentials, and step-by-step procedure breakdown.",
+            "estimated_impact": "Medium",
+            "effort": "Weeks",
+            "falsifiability_check": "Organic impressions increase by >35% on DataForSEO tracked keywords within 60 days."
+          }
+        ],
+        "executive_summary": "The website exhibits a healthy technical foundation with an overall SEO score of 74/100, but is held back by slow mobile Core Web Vitals (LCP 4.2s) and incomplete local schema markup. Addressing the render-blocking scripts and adding local GeoCoordinates will quickly boost visibility in Pune's competitive dental pack. Implementing the dedicated implant cost landing page will unlock high-intent patient appointments currently captured by competitors."
+      },
+      "pdfPath": "C:\\Users\\Sandip\\OneDrive\\Desktop\\edgelink\\public\\reports\\Audit-Report-audit_1793245753848_c1qmc.pdf",
+      "pdfUrl": "/reports/Audit-Report-audit_1793245753848_c1qmc.pdf",
+      "completedAt": "2026-10-29T03:49:15.254Z"
+    },
+    {
       "id": "audit_1793199638855_o19sp",
       "status": "completed",
       "progress": 100,
@@ -4062,6 +4518,166 @@
       "status": "SUCCESS",
       "message": "SEO Audit pipeline finished successfully for https://punesmiles.in",
       "timestamp": "2026-10-28T15:00:40.073Z"
+    },
+    {
+      "id": "log_1793245753965_yhr4",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_1_CRAWL",
+      "status": "START",
+      "message": "Starting headless crawl on https://example-dental-clinic.com",
+      "timestamp": "2026-10-29T03:49:13.965Z"
+    },
+    {
+      "id": "log_1793245754402_oowy",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_1_CRAWL",
+      "status": "SUCCESS",
+      "message": "Crawl complete. Title: \"Example Dental Clinic | Premier Dentist in Pune\". Found 1 H1s, 3 images.",
+      "timestamp": "2026-10-29T03:49:14.402Z"
+    },
+    {
+      "id": "log_1793245754416_kpgm",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_2_PAGESPEED",
+      "status": "START",
+      "message": "Fetching mobile performance metrics and Core Web Vitals",
+      "timestamp": "2026-10-29T03:49:14.416Z"
+    },
+    {
+      "id": "log_1793245754422_iv6c",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_2_PAGESPEED",
+      "status": "SUCCESS",
+      "message": "PageSpeed complete. Perf Score: 61, LCP: 4.2 s",
+      "timestamp": "2026-10-29T03:49:14.422Z"
+    },
+    {
+      "id": "log_1793245754437_1jkb",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_3_GSC",
+      "status": "START",
+      "message": "Fetching search queries, clicks, and impressions from Google Search Console",
+      "timestamp": "2026-10-29T03:49:14.437Z"
+    },
+    {
+      "id": "log_1793245754449_8quw",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_3_GSC",
+      "status": "SUCCESS",
+      "message": "GSC complete. Clicks: 167, Impressions: 4560, Queries: 5",
+      "timestamp": "2026-10-29T03:49:14.449Z"
+    },
+    {
+      "id": "log_1793245754463_ykq7",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_4_SCHEMA",
+      "status": "START",
+      "message": "Validating Schema.org LD+JSON / Microdata structured entities",
+      "timestamp": "2026-10-29T03:49:14.463Z"
+    },
+    {
+      "id": "log_1793245754469_w3jw",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_4_SCHEMA",
+      "status": "SUCCESS",
+      "message": "Schema analysis complete. Found types: Dentist. LocalBusiness present: true",
+      "timestamp": "2026-10-29T03:49:14.469Z"
+    },
+    {
+      "id": "log_1793245754486_a2qn",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_5_ONPAGE",
+      "status": "START",
+      "message": "Analyzing title tags, meta description, heading hierarchy, image alts",
+      "timestamp": "2026-10-29T03:49:14.486Z"
+    },
+    {
+      "id": "log_1793245754496_a9bq",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_5_ONPAGE",
+      "status": "SUCCESS",
+      "message": "On-page audit score: 83/100. Title length: 47 chars.",
+      "timestamp": "2026-10-29T03:49:14.496Z"
+    },
+    {
+      "id": "log_1793245754717_b4w1",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_6_ROBOTS",
+      "status": "START",
+      "message": "Validating robots.txt crawl rules and XML sitemap accessibility",
+      "timestamp": "2026-10-29T03:49:14.717Z"
+    },
+    {
+      "id": "log_1793245754771_chnk",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_6_ROBOTS",
+      "status": "SUCCESS",
+      "message": "Robots & Sitemap check complete. Robots status: 200, Sitemap URLs: 18",
+      "timestamp": "2026-10-29T03:49:14.771Z"
+    },
+    {
+      "id": "log_1793245754796_ilz6",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_7_DATAFORSEO",
+      "status": "START",
+      "message": "Querying organic keyword rankings and competitor positions",
+      "timestamp": "2026-10-29T03:49:14.796Z"
+    },
+    {
+      "id": "log_1793245754805_7ynb",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "STEP_7_DATAFORSEO",
+      "status": "SUCCESS",
+      "message": "DataForSEO complete. Client organic rank position: #4",
+      "timestamp": "2026-10-29T03:49:14.805Z"
+    },
+    {
+      "id": "log_1793245754818_sduk",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "AI_ANALYSIS",
+      "status": "START",
+      "message": "Sending all integrated signals to Claude AI analysis engine",
+      "timestamp": "2026-10-29T03:49:14.818Z"
+    },
+    {
+      "id": "log_1793245754827_45if",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "AI_ANALYSIS",
+      "status": "SUCCESS",
+      "message": "AI analysis generated successfully. Score: 74/100.",
+      "timestamp": "2026-10-29T03:49:14.828Z"
+    },
+    {
+      "id": "log_1793245754874_lywv",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "PDF_GENERATION",
+      "status": "START",
+      "message": "Generating publication-ready executive PDF audit report",
+      "timestamp": "2026-10-29T03:49:14.874Z"
+    },
+    {
+      "id": "log_1793245755117_nn0j",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "PDF_GENERATION",
+      "status": "SUCCESS",
+      "message": "PDF generated at /reports/Audit-Report-audit_1793245753848_c1qmc.pdf",
+      "timestamp": "2026-10-29T03:49:15.117Z"
+    },
+    {
+      "id": "log_1793245755218_ikbi",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "WHATSAPP_DELIVERY",
+      "status": "SUCCESS",
+      "message": "WhatsApp notification sent. SID: MOCK_SID_1793245755215",
+      "timestamp": "2026-10-29T03:49:15.240Z"
+    },
+    {
+      "id": "log_1793245755267_6um8",
+      "auditId": "audit_1793245753848_c1qmc",
+      "step": "AUDIT_COMPLETE",
+      "status": "SUCCESS",
+      "message": "SEO Audit pipeline finished successfully for https://example-dental-clinic.com",
+      "timestamp": "2026-10-29T03:49:15.267Z"
     }
   ]
 }
