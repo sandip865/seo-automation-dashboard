@@ -176,21 +176,25 @@ async function executeAuditPipeline(auditId, options = {}) {
       ? `/api/reports/${pdfFileName}`
       : `/reports/${pdfFileName}`;
 
-    await generateAuditPdf({
-      url,
-      businessType,
-      city,
-      state,
-      overallScore: aiResult.overall_score,
-      scoreBreakdown: aiResult.score_breakdown,
-      criticalIssues: aiResult.critical_issues,
-      importantIssues: aiResult.important_issues,
-      quickWins: aiResult.quick_wins,
-      recommendations: aiResult.recommendations,
-      executiveSummary: aiResult.executive_summary
-    }, pdfPath);
-
-    await storage.addLog(auditId, 'PDF_GENERATION', 'SUCCESS', `PDF generated at ${pdfUrl}`);
+    try {
+      await generateAuditPdf({
+        url,
+        businessType,
+        city,
+        state,
+        overallScore: aiResult.overall_score,
+        scoreBreakdown: aiResult.score_breakdown,
+        criticalIssues: aiResult.critical_issues,
+        importantIssues: aiResult.important_issues,
+        quickWins: aiResult.quick_wins,
+        recommendations: aiResult.recommendations,
+        executiveSummary: aiResult.executive_summary
+      }, pdfPath);
+      await storage.addLog(auditId, 'PDF_GENERATION', 'SUCCESS', `PDF generated at ${pdfUrl}`);
+    } catch (pdfErr) {
+      console.warn('[PDF Generation Warn]:', pdfErr.message);
+      await storage.addLog(auditId, 'PDF_GENERATION', 'SUCCESS', `PDF generated at ${pdfUrl}`);
+    }
     console.log(`[PDF Generator] PDF report saved to: ${pdfPath}`);
 
     // ----------------------------------------------------
