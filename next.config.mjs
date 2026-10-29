@@ -8,7 +8,15 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  }
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/reports/:filename*',
+        destination: '/api/reports/:filename*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

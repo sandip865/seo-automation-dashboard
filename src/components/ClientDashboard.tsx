@@ -162,7 +162,7 @@ export default function ClientDashboard({ auditId, onBackToAdmin }: ClientDashbo
         <div className="flex flex-wrap items-center gap-3">
           {audit.pdfUrl && (
             <a
-              href={audit.pdfUrl}
+              href={audit.pdfUrl.startsWith('/api/') ? audit.pdfUrl : `/api/reports/${audit.pdfUrl.split('/').pop()}`}
               download
               className="flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-teal-600/20 transition-all"
             >

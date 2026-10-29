@@ -248,48 +248,52 @@ async function generateAuditPdf(auditData, outputPath) {
   });
 }
 
+function getFallbackPdfBuffer(auditData) {
+  const title = (auditData?.url || 'Audit Report').replace(/[^a-zA-Z0-9.:/-]/g, '');
+  const score = auditData?.overallScore || 74;
+  const grade = score >= 80 ? 'Grade A (Strong)' : score >= 60 ? 'Grade B (Moderate)' : 'Grade C (Action Needed)';
+
+  const lines = [
+    'EDGELINK TECHNOLOGY - SEO AUTOMATION AUDIT REPORT',
+    'Target URL: ' + title,
+    'Overall SEO Score: ' + score + '/100 [' + grade + ']',
+    '-----------------------------------------------------------------',
+    'PILLAR SCORES:',
+    'Technical: 78% | On-Page: 82% | Core Web Vitals: 61% | Schema: 79%',
+    '-----------------------------------------------------------------',
+    'EXECUTIVE SUMMARY:',
+    'The website exhibits a healthy technical foundation with an overall SEO',
+    'score of 74/100, but is held back by slow mobile Core Web Vitals (LCP 4.2s).',
+    '-----------------------------------------------------------------',
+    'RECOMMENDATIONS MATRIX:',
+    '1. [CRITICAL] Core Web Vitals: Optimize LCP and defer 420 KiB unused JS.',
+    '2. [CRITICAL] Schema.org: Add LocalBusiness GeoCoordinates & openingHours.',
+    '3. [HIGH] On-Page: Create procedural cost landing page to boost rank.',
+    '-----------------------------------------------------------------',
+    'Edgelink Technology (c) Confidential Technical Assessment Report'
+  ];
+
+  let streamContent = 'BT\n/F1 12 Tf\n50 780 Td\n20 TL\n';
+  for (const line of lines) {
+    streamContent += '(' + line + ') \'\n';
+  }
+  streamContent += 'ET\n';
+
+  const streamLen = Buffer.byteLength(streamContent);
+  const pdfString = '%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj\n3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj\n5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj\n4 0 obj << /Length ' + streamLen + ' >>\nstream\n' + streamContent + 'endstream\nendobj\nxref\n0 6\n0000000000 65535 f \n0000000010 00000 n \n0000000060 00000 n \n0000000117 00000 n \n0000000300 00000 n \n0000000240 00000 n \ntrailer << /Size 6 /Root 1 0 R >>\nstartxref\n500\n%%EOF';
+
+  return Buffer.from(pdfString, 'utf-8');
+}
+
 function createFallbackPdf(auditData, outputPath) {
   try {
     const dir = path.dirname(outputPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-    const title = (auditData.url || 'Audit Report').replace(/[^a-zA-Z0-9.:/-]/g, '');
-    const score = auditData.overallScore || 74;
-    const grade = score >= 80 ? 'Grade A (Strong)' : score >= 60 ? 'Grade B (Moderate)' : 'Grade C (Action Needed)';
-
-    const lines = [
-      'EDGELINK TECHNOLOGY - SEO AUTOMATION AUDIT REPORT',
-      'Target URL: ' + title,
-      'Overall SEO Score: ' + score + '/100 [' + grade + ']',
-      '-----------------------------------------------------------------',
-      'PILLAR SCORES:',
-      'Technical: 78% | On-Page: 82% | Core Web Vitals: 61% | Schema: 79%',
-      '-----------------------------------------------------------------',
-      'EXECUTIVE SUMMARY:',
-      'The website exhibits a healthy technical foundation with an overall SEO',
-      'score of 74/100, but is held back by slow mobile Core Web Vitals (LCP 4.2s).',
-      '-----------------------------------------------------------------',
-      'RECOMMENDATIONS MATRIX:',
-      '1. [CRITICAL] Core Web Vitals: Optimize LCP and defer 420 KiB unused JS.',
-      '2. [CRITICAL] Schema.org: Add LocalBusiness GeoCoordinates & openingHours.',
-      '3. [HIGH] On-Page: Create procedural cost landing page to boost rank.',
-      '-----------------------------------------------------------------',
-      'Edgelink Technology (c) Confidential Technical Assessment Report'
-    ];
-
-    let streamContent = 'BT\n/F1 12 Tf\n50 780 Td\n20 TL\n';
-    for (const line of lines) {
-      streamContent += '(' + line + ') \'\n';
-    }
-    streamContent += 'ET\n';
-
-    const streamLen = Buffer.byteLength(streamContent);
-    const pdf = '%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj\n3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj\n5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj\n4 0 obj << /Length ' + streamLen + ' >>\nstream\n' + streamContent + 'endstream\nendobj\nxref\n0 6\n0000000000 65535 f \n0000000010 00000 n \n0000000060 00000 n \n0000000117 00000 n \n0000000300 00000 n \n0000000240 00000 n \ntrailer << /Size 6 /Root 1 0 R >>\nstartxref\n500\n%%EOF';
-
-    fs.writeFileSync(outputPath, pdf);
+    const buffer = getFallbackPdfBuffer(auditData);
+    fs.writeFileSync(outputPath, buffer);
   } catch (e) {
     console.error('Fallback PDF write error:', e);
   }
 }
 
-module.exports = { generateAuditPdf, createFallbackPdf };
+module.exports = { generateAuditPdf, createFallbackPdf, getFallbackPdfBuffer };
